@@ -45,7 +45,7 @@ public class ConvertFile {
                         if (lineVariables[i].contains("\"O2TV")){
                             newTransaction.setNameTransaction("O2TV, SportTV");
                         }else{
-                        newTransaction.setNameTransaction(lineVariables[i].trim());}
+                        newTransaction.setNameTransaction(lineVariables[i].trim().replace("\"",""));}
                     }
                 }
                 transactionList.add(newTransaction);
