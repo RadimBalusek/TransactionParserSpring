@@ -41,11 +41,17 @@ public class ConvertFile {
                         newTransaction.setPartnerName(lineVariables[i].replaceAll("\\s*?\\/{1}\\s*\\d{9}", "").trim());
                     }
                     if (lineVariables[i].contains("/") | !dateTimeUtils.matches(lineVariables[i].trim())) {
-                        newTransaction.setNameTransaction(lineVariables[i].trim());
+
+                        if (lineVariables[i].contains("\"O2TV")){
+                            newTransaction.setNameTransaction("O2TV, SportTV");
+                        }else{
+                        newTransaction.setNameTransaction(lineVariables[i].trim());}
                     }
                 }
                 transactionList.add(newTransaction);
             }
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
