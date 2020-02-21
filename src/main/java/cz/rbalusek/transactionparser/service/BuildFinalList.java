@@ -1,5 +1,6 @@
 package cz.rbalusek.transactionparser.service;
 
+import cz.rbalusek.transactionparser.data.OutputTransaction;
 import cz.rbalusek.transactionparser.data.SumPartnerName;
 import cz.rbalusek.transactionparser.data.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,25 @@ public class BuildFinalList {
     }
     // create final list and validate output
 
-    public String resultListBuilder(List<Transaction> transaction) {
+    public void printOutputTransaction(List<OutputTransaction> transaction){
+        for (OutputTransaction in : transaction) {
+            System.out.println(in.getPartnerName()+in.getIndex()+in.getNameTransaction());
+        }
+    }
+
+    public void resultListBuilder(List<Transaction> transaction) {
         Map<String, Integer> outputMap = calculateTransactionIndex.sumTransaction(transaction);
-        List<String> output = new ArrayList<>();
+        List<OutputTransaction> output = new ArrayList<>();
 
         for (Transaction in : transaction) {
-            output.add(in.getPartnerName());
-            output.add("|" + findIndex(outputMap, in.getDate() + in.getPartnerName()) + "|");
-            output.add(in.getNameTransaction());
+            OutputTransaction newTransaction = new OutputTransaction();
+            newTransaction.setPartnerName(in.getPartnerName());
+            newTransaction.setIndex("|" + findIndex(outputMap, in.getDate() + in.getPartnerName()) + "|");
+            newTransaction.setNameTransaction(in.getNameTransaction());
+            output.add(newTransaction);
         }
-        return output.toString();
+
+        printOutputTransaction(output);
     }
 
     private String findIndex(Map<String, Integer> outputMap, String key) {

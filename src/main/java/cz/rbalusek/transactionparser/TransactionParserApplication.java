@@ -26,11 +26,9 @@ public class TransactionParserApplication {
         BuildFinalList buildFinalList = applicationContext.getBean(BuildFinalList.class);
         ConvertFile convertFileToList = applicationContext.getBean(ConvertFile.class);
 
-        buildFinalList.resultListBuilder(convertFileToList.convertFileToList(path));
-
         // print to console output string
 
-        System.out.println(buildFinalList.resultListBuilder(convertFileToList.convertFileToList(path)));
+        buildFinalList.resultListBuilder(convertFileToList.convertFileToList(path));
 
     }
 
