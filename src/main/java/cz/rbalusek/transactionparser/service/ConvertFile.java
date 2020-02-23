@@ -33,19 +33,25 @@ public class ConvertFile {
             while ((line = reader.readLine()) != null) {
                 String[] lineVariables = line.split(",");
                 Transaction newTransaction = new Transaction();
-                for (int i = lineVariables.length - 1; i >= 0; i--) {
-                    if (dateTimeUtils.matches(lineVariables[i].trim())) {
-                        newTransaction.setDate(dateTimeUtils.convertToDate(lineVariables[i]));
+                for (int i = 0; i < lineVariables.length - 1; i++) {
+                    String element = lineVariables[i].trim().replace("\"", "");
+                    // check if element compare date
+                    if (dateTimeUtils.dateMatches(element)) {
+                        newTransaction.setDate(dateTimeUtils.convertToDate(element));
                     }
-                    if (lineVariables[i].contains("/")) {
-                        newTransaction.setPartnerName(lineVariables[i].replaceAll("\\s*?\\/{1}\\s*\\d{9}", "").trim());
+                    // check if element compare mobile number
+                    if (dateTimeUtils.phoneMatches(element)) {
+                        newTransaction.setPartnerName(element.replaceAll("\\s*?\\/{1}\\s*\\d{9}", "").trim());
                     }
-                    if (lineVariables[i].contains("/") | !dateTimeUtils.matches(lineVariables[i].trim())) {
-
-                        if (lineVariables[i].contains("\"O2TV")){
-                            newTransaction.setNameTransaction("O2TV, SportTV");
-                        }else{
-                        newTransaction.setNameTransaction(lineVariables[i].trim().replace("\"",""));}
+                    // check if element don't compare mobile number and date
+                    if (!dateTimeUtils.phoneMatches(element) & !dateTimeUtils.dateMatches(element)) {
+                        // check if new transaction compare transaction name if yes concat new element + old element
+                        // this condition we need for case when transaction name compare ,
+                        if (newTransaction.getNameTransaction() == null) {
+                            newTransaction.setNameTransaction(element);
+                        } else {
+                           newTransaction.setNameTransaction(newTransaction.getNameTransaction().concat(", "+element));
+                        }
                     }
                 }
                 transactionList.add(newTransaction);

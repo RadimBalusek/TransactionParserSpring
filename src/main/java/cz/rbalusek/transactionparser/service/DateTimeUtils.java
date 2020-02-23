@@ -18,8 +18,15 @@ public class DateTimeUtils {
     private static Pattern DATE_PATTERN = Pattern.compile(
             "\\d{4}-\\d{2}-\\d{2}\\s*\\d{2}:\\d{2}:\\d{2}");
 
-    public boolean matches(String date) {
+    private static Pattern PHONE_PATTERN = Pattern.compile(
+            "^[A-Za-z]*\\s*?\\/{1}\\s*\\d{9}");
+
+    public boolean dateMatches(String date) {
         return DATE_PATTERN.matcher(date).matches();
+    }
+
+    public boolean phoneMatches(String phone) {
+        return PHONE_PATTERN.matcher(phone).matches();
     }
 
     public Date convertToDate(String dateString) {
