@@ -33,24 +33,24 @@ public class ConvertFile {
             while ((line = reader.readLine()) != null) {
                 String[] lineVariables = line.split(",");
                 Transaction newTransaction = new Transaction();
-                for (int i = 0; i < lineVariables.length - 1; i++) {
-                    String element = lineVariables[i].trim().replace("\"", "");
+                for (String element : lineVariables) {
+                    String singleElement = element.trim().replace("\"", "");
                     // check if element compare date
-                    if (dateTimeUtils.dateMatches(element)) {
-                        newTransaction.setDate(dateTimeUtils.convertToDate(element));
+                    if (dateTimeUtils.dateMatches(singleElement)) {
+                        newTransaction.setDate(dateTimeUtils.convertToDate(singleElement));
                     }
                     // check if element compare mobile number
-                    if (dateTimeUtils.phoneMatches(element)) {
-                        newTransaction.setPartnerName(element.replaceAll("\\s*?\\/{1}\\s*\\d{9}", "").trim());
+                    if (dateTimeUtils.phoneMatches(singleElement)) {
+                        newTransaction.setPartnerName(singleElement.replaceAll("\\s*?\\/{1}\\s*\\d{9}", "").trim());
                     }
                     // check if element don't compare mobile number and date
-                    if (!dateTimeUtils.phoneMatches(element) & !dateTimeUtils.dateMatches(element)) {
+                    if (!dateTimeUtils.phoneMatches(singleElement) & !dateTimeUtils.dateMatches(singleElement)) {
                         // check if new transaction compare transaction name if yes concat new element + old element
                         // this condition we need for case when transaction name compare ,
                         if (newTransaction.getNameTransaction() == null) {
-                            newTransaction.setNameTransaction(element);
+                            newTransaction.setNameTransaction(singleElement);
                         } else {
-                           newTransaction.setNameTransaction(newTransaction.getNameTransaction().concat(", "+element));
+                           newTransaction.setNameTransaction(newTransaction.getNameTransaction().concat(", "+singleElement));
                         }
                     }
                 }
