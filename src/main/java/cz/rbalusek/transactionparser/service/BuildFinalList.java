@@ -1,7 +1,6 @@
 package cz.rbalusek.transactionparser.service;
 
 import cz.rbalusek.transactionparser.data.OutputTransaction;
-import cz.rbalusek.transactionparser.data.SumPartnerName;
 import cz.rbalusek.transactionparser.data.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +55,7 @@ public class BuildFinalList {
 
     private String validationValue(Map.Entry<String, Integer> entry) {
         // update netflix index
-        if (entry.getKey().endsWith(SumPartnerName.NETFLIX) && entry.getValue() < 10) {
+        if (entry.getKey().endsWith("Netflix") && entry.getValue() < 10) {
             String updateMicrosoft = "0" + entry.getValue().toString();
             return updateMicrosoft;
         } else {
